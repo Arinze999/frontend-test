@@ -81,3 +81,7 @@ Explore the possibility of enabling multiple users to annotate a document simult
 
 Advanced UI/UX Improvements:
 Continuously improve the interface and user experience with responsive design, smooth transitions, and additional feedback mechanisms.
+
+
+# 🔴 **IMPORTANT: Please Read This!**
+the signature feature might have a bug, if I had more time i believe i can figure it out, the signature saves on the dev server but on build it has an error trying to save.

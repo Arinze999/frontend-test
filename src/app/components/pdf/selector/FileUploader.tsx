@@ -80,7 +80,7 @@ const FileUploader: React.FC = () => {
         {file ? (
           <div>
             <p>Working On:</p>
-            <strong>{file.name}</strong>
+            <Strong>{file.name}</Strong>
           </div>
         ) : (
           <div>
@@ -107,7 +107,7 @@ const Container = styled.div`
 const DropArea = styled.div`
   width: 100%;
   max-width: 600px;
-  height: 30px;
+  height: fit-content;
   border: 2px dashed #ccc;
   border-radius: 4px;
   display: flex;
@@ -118,4 +118,15 @@ const DropArea = styled.div`
   text-align: center;
   padding: 20px;
   transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  & > div {
+    width: 100%;
+  }
+`;
+
+const Strong = styled.strong`
+  white-space: normal; 
+  overflow-wrap: break-word;
+  width:100%;
+  max-width:14rem;
 `;
