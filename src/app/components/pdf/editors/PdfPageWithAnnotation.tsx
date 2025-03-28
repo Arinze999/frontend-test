@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { usePdf } from '@/app/contexts/PdfContext';
 import SignatureCanvas from 'react-signature-canvas';
 import Buton from '../../Buton';
+import Swal from 'sweetalert2';
 
 const PageContainer = styled.div`
   position: relative;
@@ -133,6 +134,7 @@ const PdfPageWithAnnotation: React.FC<PdfPageWithAnnotationProps> = ({
     clear: () => void;
     isEmpty: () => boolean;
     getTrimmedCanvas: () => HTMLCanvasElement;
+    getCanvas: () => HTMLCanvasElement;
   }
 
   const sigCanvasRef = useRef<SignatureCanvasInstance | null>(null);
@@ -208,15 +210,31 @@ const PdfPageWithAnnotation: React.FC<PdfPageWithAnnotationProps> = ({
       sigCanvasRef.current &&
       !sigCanvasRef.current.isEmpty()
     ) {
-      const dataUrl = sigCanvasRef.current
-        .getTrimmedCanvas()
-        .toDataURL('image/png');
-      const newAnnotation: Annotation = {
-        ...pendingSignature,
-        content: dataUrl,
-      };
-      addAnnotation(newAnnotation);
-      setPendingSignature(null);
+      // Check if getTrimmedCanvas is available; if not, fallback to getCanvas (if available)
+      const getCanvasFn =
+        typeof sigCanvasRef.current.getTrimmedCanvas === 'function'
+          ? sigCanvasRef.current.getTrimmedCanvas
+          : sigCanvasRef.current.getCanvas;
+
+      if (getCanvasFn) {
+        const trimmedCanvas = getCanvasFn.call(sigCanvasRef.current);
+        const dataUrl = trimmedCanvas.toDataURL('image/png');
+        const newAnnotation: Annotation = {
+          ...pendingSignature,
+          content: dataUrl,
+        };
+        addAnnotation(newAnnotation);
+        setPendingSignature(null);
+      } else {
+        console.error(
+          'Signature canvas instance does not have getTrimmedCanvas or getCanvas method.'
+        );
+        Swal.fire({
+          title: 'Error',
+          text: 'Error saving signature',
+          icon: 'error',
+        });
+      }
     }
   };
 
