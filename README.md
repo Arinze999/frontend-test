@@ -1,73 +1,83 @@
-## Frontend Technical Assessment - Document Signer & Annotation Tool
+# Document Annotation Application
 
-## Overview
+This is a Next.js single-page application (SPA) built with TypeScript and Emotion for styling. The application allows users to upload PDF documents, annotate them (highlight, underline, comment, and add signatures), and export the final annotated document as a high-quality PDF.
 
-This technical assessment is designed to evaluate your skills in building interactive, modern web applications using Next.js. You'll be creating a single-page document signer and annotation tool that allows users to work with PDF documents.
+## Table of Contents
 
-## Requirements
+- [Setup and Running Instructions](#setup-and-running-instructions)
+- [Libraries and Tools Used](#libraries-and-tools-used)
+- [Challenges Faced and Solutions](#challenges-faced-and-solutions)
+- [Potential Future Enhancements](#potential-future-enhancements)
 
-### Core Functionality
+## Setup and Running Instructions
 
-1. **Document Upload**
-   - Users should be able to upload PDF documents
-   - Implement drag-and-drop functionality and/or file selection dialog
-   - Display uploaded document in the viewport
+1. **Clone the Repository**  
+   Make sure you have forked the repository and cloned your fork:
+   ```bash
+   git clone https://github.com/yourusername/your-forked-repo.git
+   cd your-forked-repo
+   ```
+2. **Initialize the Next.js App with TypeScript**
+   npx create-next-app@latest . --typescript
 
-2. **Annotation Features**
-   - Implement the following annotation capabilities:
-     - Highlight text with customizable colors
-     - Underline text with customizable colors
-     - Add comments attached to specific parts of the document
-     - Draw signatures anywhere on the document
+3. **Install Dependencies**
+   npm install
+   npm install @emotion/react @emotion/styled
 
-3. **Document Export**
-   - Allow users to export the annotated document as a PDF
-   - All annotations and signatures must be properly embedded in the exported PDF
-   - Exported document should maintain the quality of the original
+4. **Configure Next.js for Emotion (optional)**
+   import type { NextConfig } from "next";
 
-### Technical Requirements
+const nextConfig: NextConfig = {
+/_ config options here _/
+compiler: {
+emotion: true,
+},
+};
 
-- Use **Next.js** as your framework
-- Implement a single-page application (SPA) design where all actions occur without page reloads
-- Create a responsive design that works well on different screen sizes
-- Ensure the application has a clean, intuitive, and professional UI/UX
+export default nextConfig;
 
-### UI/UX Requirements
+5. **Run the Development Server**
+   npm run dev
 
-- Design a sleek, modern interface with clear visual hierarchy
-- Implement intuitive controls for all annotation tools
-- Create smooth transitions between different states of the application
-- Provide appropriate feedback for user actions (loading states, success/error messages)
+6. **Building for Production**
+   npm run build
+   npm start
 
-## Evaluation Criteria
+## Libraries and Tools Used
 
-Your submission will be evaluated based on:
+Next.js: Provides a robust framework for building server-rendered and static web applications.
 
-1. **Functionality** - Does the application meet all the requirements?
-2. **Code Quality** - Is your code well-structured, readable, and maintainable?
-3. **UI/UX Design** - Is the interface intuitive, responsive, and visually appealing?
-4. **Performance** - Does the application handle operations efficiently?
-5. **Best Practices** - Do you follow modern web development best practices?
+TypeScript: Enhances code quality and maintainability with static typing.
 
-## Submission Guidelines
+Emotion: Enables CSS-in-JS styling for dynamic and modular component styling.
 
-1. Fork this repository
-2. Implement your solution
-3. Create a README with:
-   - Setup and running instructions
-   - Any libraries or tools you used and why
-   - Any challenges you faced and how you solved them
-   - Any features you would add if you had more time
-4. Submit a pull request or send us a link to your repository
+react-pdf & pdf.js: Used to render PDF documents in the browser. This combination is easy to integrate, highly customizable, and will serve as the foundation for adding editing and annotation features later.
 
-## Time Allocation
+uuid: to generate unique Id for key Identifiers.
 
-You have three days to complete this assessment. We estimate it should take approximately 8-10 hours of focused work.
+ESLint and Prettier: Ensure code consistency and maintainability through automated linting and formatting.
 
-## Questions
+sweetalert: for proper action notifications
 
-If you have any questions or need clarification, please reach out to [dev.ritease@gmail.com](mailto:dev.ritease@gmail.com).
+used a google font as well, that looked to fit the purpose of the task.
 
-Good luck!
+## Challenges Faced and Solutions
 
+Initial Setup and Configuration:
+Setting up Next.js with TypeScript and integrating Emotion required careful configuration. Configuring the SWC compiler with Emotion support in next.config.js resolved SSR issues and improved debugging.
 
+Integration with PDF Rendering and Annotation Tools:
+While PDF rendering and annotation features are in progress, integrating pdf.js and PDF-Lib was really challenging. Had to do some research to figure things out.
+
+Finding a way to properly position the comment and signature in the exported pdf file was really challenging, mainly because the PDF-LIB which i am using makes use of a bottom left origin for positioning, but with some brainstorming and research i was able to find a way to make it work better at least.
+
+the pdf worker and viewer gave me a lot of headached while trying to consfigure, as they has to be exactly of same version. Just ended up downgrading the viewer to the version of the worker.
+
+## Potential Future Enhancements
+Making the process a lot less manual than it is.
+
+Real-Time Collaboration:
+Explore the possibility of enabling multiple users to annotate a document simultaneously.
+
+Advanced UI/UX Improvements:
+Continuously improve the interface and user experience with responsive design, smooth transitions, and additional feedback mechanisms.
